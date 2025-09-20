@@ -1,0 +1,230 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Leen Mohammed — Portfolio</title>
+  <meta name="description" content="Modern portfolio template to showcase projects, contact info and resume." />
+
+  <style>
+    :root{
+      --bg:#0f1724;
+      --card:#111827;
+      --muted:#9ca3af;
+      --accent:#6366f1; /* indigo */
+      --glass: rgba(255,255,255,0.04);
+      --radius:18px;
+      --fw-regular: 400;
+      --fw-bold: 700;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+    }
+    *{box-sizing:border-box;margin:0;padding:0}
+    html,body{height:100%}
+    body{
+      background:linear-gradient(180deg,#0a1121 0%,var(--bg) 100%);
+      color:#f3f4f6;
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      line-height:1.6;
+      overflow-x:hidden;
+    }
+    
+    .container{max-width:1100px;margin:0 auto;padding:32px}
+
+    header{display:flex;justify-content:space-between;align-items:center;margin-bottom:48px;animation:fadeInDown 1s ease forwards}
+    .brand{display:flex;gap:12px;align-items:center}
+    .logo{width:48px;height:48px;border-radius:12px;background:linear-gradient(135deg,var(--accent),#06b6d4);display:flex;align-items:center;justify-content:center;font-weight:700;color:white;box-shadow:0 4px 10px rgba(0,0,0,0.3)}
+    nav{display:flex;gap:20px;align-items:center}
+    nav a{color:var(--muted);text-decoration:none;font-weight:600;position:relative}
+    nav a::after{content:"";position:absolute;width:0;height:2px;left:0;bottom:-4px;background:var(--accent);transition:width .3s}
+    nav a:hover{color:#fff}
+    nav a:hover::after{width:100%}
+
+    .hero{display:grid;grid-template-columns:1fr 380px;gap:28px;align-items:center;margin-bottom:56px}
+    .intro{animation:fadeInLeft 1.2s ease}
+    .intro h1{font-size:36px;margin-bottom:12px;line-height:1.3}
+    .intro p{color:var(--muted);margin-bottom:20px;max-width:520px}
+    .cta{display:flex;gap:14px}
+    .btn{background:var(--accent);border:0;padding:12px 20px;border-radius:14px;color:white;font-weight:600;cursor:pointer;transition:transform .2s,box-shadow .2s}
+    .btn:hover{transform:translateY(-3px);box-shadow:0 8px 20px rgba(99,102,241,.4)}
+    .btn.secondary{background:transparent;border:1px solid rgba(255,255,255,0.1);color:var(--muted)}
+
+    .profile-card{background:var(--glass);padding:20px;border-radius:18px;backdrop-filter:blur(12px);box-shadow:0 8px 24px rgba(0,0,0,0.5);animation:fadeInRight 1.2s ease}
+    .avatar{width:100%;height:240px;border-radius:14px;background:linear-gradient(135deg,#1f2937,#111827);display:flex;align-items:center;justify-content:center;font-size:28px;color:rgba(255,255,255,0.15)}
+    .profile-info{padding-top:14px}
+    .tags{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px}
+    .tag{background:var(--glass);padding:6px 12px;border-radius:999px;color:var(--muted);font-size:13px;transition:background .3s}
+    .tag:hover{background:rgba(99,102,241,0.2);color:white}
+
+    .section{margin-bottom:56px}
+    .section h2{margin-bottom:20px;font-size:24px;animation:fadeInUp 1s ease}
+    .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:20px}
+    .card{background:var(--card);padding:16px;border-radius:16px;overflow:hidden;cursor:pointer;transition:transform .25s ease, box-shadow .25s ease, background .3s;animation:fadeInUp 1s ease}
+    .card:hover{transform:translateY(-6px) scale(1.02);box-shadow:0 12px 30px rgba(0,0,0,0.6);background:#1a2236}
+    .card .thumb{height:150px;border-radius:10px;background:linear-gradient(135deg,#1f2937,#111827);display:flex;align-items:center;justify-content:center;color:var(--muted);font-size:18px;margin-bottom:12px;transition:color .3s}
+    .card:hover .thumb{color:white}
+    .card h3{margin-bottom:8px;font-size:18px}
+    .card p{margin:0;color:var(--muted);font-size:14px}
+    .meta{display:flex;justify-content:space-between;align-items:center;margin-top:14px}
+    .meta .stack{color:var(--muted);font-size:13px}
+
+    .modal{position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:rgba(0,0,0,0.7);z-index:80;padding:20px;animation:fadeIn .4s ease}
+    .modal.open{display:flex}
+    .modal-card{background:#111827;padding:24px;border-radius:18px;max-width:900px;width:100%;box-shadow:0 20px 60px rgba(0,0,0,0.9);animation:scaleIn .4s ease}
+    .modal-card .row{display:flex;gap:20px;flex-wrap:wrap}
+    .modal-card img{max-width:420px;border-radius:12px}
+    .close-btn{background:transparent;border:0;color:var(--muted);font-weight:700;cursor:pointer;font-size:18px}
+
+    form{display:grid;gap:12px;animation:fadeInUp 1s ease}
+    input,textarea{background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);padding:12px;border-radius:12px;color:inherit;font-size:14px;transition:border .2s,background .2s}
+    input:focus,textarea:focus{outline:none;border-color:var(--accent);background:rgba(99,102,241,0.05)}
+    textarea{min-height:120px;resize:vertical}
+
+    footer{margin-top:40px;color:var(--muted);font-size:14px;text-align:center;animation:fadeInUp 1s ease}
+
+    @media (max-width:880px){
+      .hero{grid-template-columns:1fr}
+      .profile-card{order:-1}
+    }
+
+    /* animations */
+    @keyframes fadeIn{from{opacity:0}to{opacity:1}}
+    @keyframes fadeInUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+    @keyframes fadeInDown{from{opacity:0;transform:translateY(-20px)}to{opacity:1;transform:translateY(0)}}
+    @keyframes fadeInLeft{from{opacity:0;transform:translateX(-20px)}to{opacity:1;transform:translateX(0)}}
+    @keyframes fadeInRight{from{opacity:0;transform:translateX(20px)}to{opacity:1;transform:translateX(0)}}
+    @keyframes scaleIn{from{opacity:0;transform:scale(.95)}to{opacity:1;transform:scale(1)}}
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="brand">
+        <div class="logo">L</div>
+        <div>
+          <div style="font-weight:700">Leen Mohammed</div>
+          <div style="font-size:12px;color:var(--muted)">Software Engineer • Computer Vision Enthusiast</div>
+        </div>
+      </div>
+
+      <nav>
+        <a href="#projects">Projects</a>
+        <a href="#about">About</a>
+        <a href="#contact">Contact</a>
+        <a href="#resume" class="btn" style="padding:8px 14px">Resume</a>
+      </nav>
+    </header>
+
+    <main>
+      <section class="hero">
+        <div class="intro">
+          <h1>Hi — I’m Leen. I build sleek & modern AI-powered experiences.</h1>
+          <p>I’m a software engineer focused on Computer Vision and full-stack projects. Below you’ll find a curated list of projects, case studies, and experiments.</p>
+          <div class="cta">
+            <button class="btn" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">Hire / Collaborate</button>
+            <button class="btn secondary" onclick="document.getElementById('projects').scrollIntoView({behavior:'smooth'})">See Projects</button>
+          </div>
+        </div>
+
+        <aside class="profile-card">
+          <div class="avatar">Your Photo</div>
+          <div class="profile-info">
+            <div style="font-weight:700">Leen Mohammed</div>
+            <div style="color:var(--muted);font-size:13px;margin-top:6px">Computer Vision Intern • AI for Images & Videos</div>
+            <div class="tags">
+              <div class="tag">Python</div>
+              <div class="tag">OpenCV</div>
+              <div class="tag">React</div>
+              <div class="tag">Django</div>
+            </div>
+          </div>
+        </aside>
+      </section>
+
+      <section id="projects" class="section">
+        <h2>Selected Projects</h2>
+        <div class="grid" id="projectsGrid"></div>
+      </section>
+
+      <section id="about" class="section">
+        <h2>About</h2>
+        <p style="color:var(--muted)">I’m a software engineer who loves building real-world CV systems: object detection, facial/pose analysis, and automation. I enjoy turning research into product-ready code and shipping projects that people actually use.</p>
+      </section>
+
+      <section id="contact" class="section">
+        <h2>Contact</h2>
+        <form onsubmit="event.preventDefault(); alert('Thanks! Your message was sent (demo).');">
+          <input placeholder="Your name" required />
+          <input type="email" placeholder="Your email" required />
+          <textarea placeholder="Tell me about your project or say hi" required></textarea>
+          <div style="display:flex;gap:12px">
+            <button class="btn" type="submit">Send</button>
+            <a class="btn secondary" href="#resume">Download CV</a>
+          </div>
+        </form>
+      </section>
+    </main>
+
+    <footer>
+      Built with ❤️ — Made by Leen Mohammed • <span id="year"></span>
+    </footer>
+  </div>
+
+  <div id="modal" class="modal" role="dialog" aria-hidden="true">
+    <div class="modal-card">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+        <strong id="modalTitle">Project title</strong>
+        <button class="close-btn" onclick="closeModal()">✕</button>
+      </div>
+      <div class="row">
+        <img id="modalImg" src="" alt="project screenshot" />
+        <div>
+          <p id="modalDesc" style="color:var(--muted)"></p>
+          <p style="margin-top:12px"><strong>Tech:</strong> <span id="modalTech"></span></p>
+          <p style="margin-top:8px"><a id="modalLink" href="#" target="_blank">Live / Repo</a></p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const projects = [
+      {id:1,title:'CV Face Detector',desc:'Real-time face detection & landmarks using OpenCV and a lightweight model. Deployed as a web demo.',tech:'Python, OpenCV, TensorFlow.js',img:'',link:'#'},
+      {id:2,title:'Mapty (OOP practice)',desc:'A mapping app to save workouts & routes, built to practice OOP in JS.',tech:'JavaScript, Leaflet',img:'',link:'#'},
+      {id:3,title:'Auto-Tagger',desc:'A dataset tagging tool that uses image embeddings to suggest labels and speed up annotation.',tech:'PyTorch, React, Docker',img:'',link:'#'}
+    ];
+
+    const grid=document.getElementById('projectsGrid');
+    projects.forEach(p=>{
+      const card=document.createElement('div');
+      card.className='card';
+      card.innerHTML=`
+        <div class="thumb">${p.title}</div>
+        <h3>${p.title}</h3>
+        <p>${p.desc}</p>
+        <div class="meta">
+          <div class="stack">${p.tech}</div>
+          <div><button class="btn" style="padding:6px 12px;font-size:13px" onclick="openModal(${p.id})">Details</button></div>
+        </div>`;
+      grid.appendChild(card);
+    });
+
+    function openModal(id){
+      const p=projects.find(x=>x.id===id);
+      document.getElementById('modalTitle').textContent=p.title;
+      document.getElementById('modalDesc').textContent=p.desc;
+      document.getElementById('modalTech').textContent=p.tech;
+      document.getElementById('modalLink').href=p.link;
+      document.getElementById('modalImg').src=p.img||'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="420" height="300"><rect width="100%" height="100%" fill="%23142233"/><text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" fill="%239ca3af" font-family="Arial" font-size="20">No image</text></svg>';
+      document.getElementById('modal').classList.add('open');
+      document.getElementById('modal').setAttribute('aria-hidden','false');
+    }
+    function closeModal(){
+      document.getElementById('modal').classList.remove('open');
+      document.getElementById('modal').setAttribute('aria-hidden','true');
+    }
+    document.getElementById('year').textContent=new Date().getFullYear();
+    document.getElementById('modal').addEventListener('click',e=>{if(e.target===document.getElementById('modal')) closeModal();});
+  </script>
+</body>
+</html>
